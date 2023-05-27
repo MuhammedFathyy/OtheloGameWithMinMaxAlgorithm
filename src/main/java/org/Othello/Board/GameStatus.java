@@ -2,12 +2,12 @@ package org.Othello.Board;
 
 public class GameStatus {
 
-    public boolean gameIsOver(Board board)
+    public static boolean gameIsOver(Board board)
     {
         return false;
     }
 
-    public int evaluate(Board board)
+    public static int evaluate(Board board)
     {
         return 0;
     }

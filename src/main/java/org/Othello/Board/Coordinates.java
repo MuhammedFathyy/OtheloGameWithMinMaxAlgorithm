@@ -1,5 +1,7 @@
 package org.Othello.Board;
 
+import java.util.List;
+
 public class Coordinates {
 
     private int xCoordinates;
@@ -27,5 +29,10 @@ public class Coordinates {
 
     public void setyCoordinates(int yCoordinates) {
         this.yCoordinates = yCoordinates;
+    }
+
+    public static List<Coordinates> generateCoordinates(Board board , boolean maximizingPlayer)
+    {
+        return null;
     }
 }
