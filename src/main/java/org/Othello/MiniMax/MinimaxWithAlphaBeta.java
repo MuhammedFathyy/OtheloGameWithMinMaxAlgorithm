@@ -1,4 +1,4 @@
-package org.Othello;
+package org.Othello.MiniMax;
 
 import org.Othello.Board.Board;
 import org.Othello.Board.Coordinates;
@@ -10,8 +10,7 @@ import static org.Othello.Board.GameStatus.evaluate;
 import static org.Othello.Board.GameStatus.gameIsOver;
 import static org.Othello.Board.Moves.makeMove;
 
-public class OthelloAI {
-    // Other code...
+public class MinimaxWithAlphaBeta {
 
     public Coordinates minimaxAlphaBeta(Board board, int depth, Boolean maximizingPlayer) {
         List<Coordinates> possibleCoordinates = generateCoordinates(board, maximizingPlayer);
