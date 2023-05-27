@@ -1,6 +1,6 @@
 package org.Othelo;
 
-public class Main {
+public class Othelo {
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }
