@@ -1,6 +1,5 @@
 package org.Othello.Board;
 
-import java.util.List;
 
 public class Coordinates {
 
@@ -31,8 +30,19 @@ public class Coordinates {
         this.yCoordinates = yCoordinates;
     }
 
-    public static List<Coordinates> generateCoordinates(Board board , boolean maximizingPlayer)
-    {
-        return null;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true; // Same object reference
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false; // Not the same class or null
+        }
+
+        Coordinates coordinates = (Coordinates) obj;
+
+        return this.getxCoordinates() ==coordinates.getxCoordinates()
+                && this.getyCoordinates() == coordinates.getyCoordinates();
     }
 }
