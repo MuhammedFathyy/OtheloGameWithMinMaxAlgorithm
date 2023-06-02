@@ -29,4 +29,5 @@ public class Board {
     public void setBoard(int[][] board) {
         this.board = board;
     }
+    public static int getSize() {return SIZE;}
 }
