@@ -5,6 +5,8 @@ import org.Othello.Heuristic.CornerCapturedHeuristic;
 
 public class GameStatus {
 
+    private GameStatus(){};
+
     public static boolean gameIsOver(Board board)
     {
         int size = Board.getSize();
