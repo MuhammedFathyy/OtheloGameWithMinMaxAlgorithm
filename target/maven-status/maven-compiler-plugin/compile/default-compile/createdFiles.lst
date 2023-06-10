@@ -1,0 +1,15 @@
+org\Othello\MainWindow$4.class
+org\Othello\Board\Board.class
+org\Othello\MainWindow$3.class
+org\Othello\Board\GameStatus.class
+org\Othello\Board\Coordinates.class
+org\Othello\Board\Moves.class
+org\Othello\MainWindow.class
+org\Othello\MainWindow$2.class
+org\Othello\Othello.class
+org\Othello\GamePanel.class
+org\Othello\MainWindow$5.class
+org\Othello\MiniMax\MinimaxWithAlphaBeta.class
+org\Othello\MainWindow$6.class
+org\Othello\GamePanel$1.class
+org\Othello\MainWindow$1.class
