@@ -1,5 +1,6 @@
 package org.Othello.Board;
 
+import org.Othello.Heuristic.ActualMobilityHeuristic;
 import org.Othello.Heuristic.CornerCapturedHeuristic;
 
 
@@ -24,8 +25,11 @@ public class GameStatus {
         //List<Coordinates> availableMoves = generateCoordinates(board , Player);
 
         CornerCapturedHeuristic cornerCapturedHeuristic = new CornerCapturedHeuristic();
-        int score = cornerCapturedHeuristic.getScore(board,Player);
+        ActualMobilityHeuristic actualMobilityHeuristic= new ActualMobilityHeuristic();
+        int cornerCapturedHeuristicScore = cornerCapturedHeuristic.getScore(board,Player);
+        int ActualMobilityHeuristicScore = actualMobilityHeuristic.getScore(board,Player);
 
-        return  score;
+        //the score must be calculated based on all the heuristics
+        return 0;
     }
 }
