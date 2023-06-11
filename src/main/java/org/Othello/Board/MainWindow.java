@@ -1,5 +1,7 @@
 
-package org.Othello;
+package org.Othello.Board;
+
+//import org.Othello.Board.OthelloGame;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -147,7 +149,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_modeComponentAdded
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-       GamePanel newWindow = new GamePanel();
+       OthelloGame newWindow = new OthelloGame();
        newWindow.setVisible(true);
        newWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButton1MouseClicked
