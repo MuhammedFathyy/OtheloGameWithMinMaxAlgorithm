@@ -9,7 +9,7 @@ import java.util.List;
 public class ActualMobilityHeuristic {
 
 
-    public int getScore(Board currentBoard, boolean Player){
+    public int getScore(Board currentBoard,int Player){
 
         List<Coordinates> coordinatesList= Moves.getAvailableMoves(currentBoard,Player);
         return coordinatesList.size();

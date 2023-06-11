@@ -53,10 +53,11 @@ public class Coordinates {
         this.yCoordinates = yCoordinates;
     }
 
-    public static List<Coordinates> generateCoordinates(Board board , boolean maximizingPlayer)
-    {
-        return null;
-    }
+//    public static List<Coordinates> generateCoordinates(Board board , int playerNumber)
+//    {
+//
+//        return null;
+//    }
     
     
     

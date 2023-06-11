@@ -5,7 +5,7 @@ public class Rectangle {
     /**
      * The top left corner of the Rectangle.
      */
-    protected Position position;
+    protected Coordinates position;
     /**
      * Width of the Rectangle.
      */
@@ -22,7 +22,7 @@ public class Rectangle {
      * @param width Width of the Rectangle.
      * @param height Height of the Rectangle.
      */
-    public Rectangle(Position position, int width, int height) {
+    public Rectangle(Coordinates position, int width, int height) {
         this.position = position;
         this.width = width;
         this.height = height;
@@ -35,7 +35,11 @@ public class Rectangle {
      * @param height Height of the rectangle.
      */
     public Rectangle(int x, int y, int width, int height) {
-        this(new Position(x,y),width,height);
+        this(new Coordinates(x,y),width,height);
+    }
+
+    public Rectangle() {
+
     }
 
     /**
@@ -61,7 +65,7 @@ public class Rectangle {
      *
      * @return Top left corner of the Rectangle.
      */
-    public Position getPosition() {
+    public Coordinates getPosition() {
         return position;
     }
 
@@ -70,8 +74,8 @@ public class Rectangle {
      *
      * @return Centre coordinates of the rectangle.
      */
-    public Position getCentre() {
-        return new Position(position.x + width/2, position.y + height/2);
+    public Coordinates getCentre() {
+        return new Coordinates(position.getxCoordinates() + width/2, position.getyCoordinates() + height/2);
     }
 
     /**
@@ -80,9 +84,9 @@ public class Rectangle {
      * @param targetPosition Position to test if it is inside the Rectangle.
      * @return True if the targetPosition is inside this Rectangle.
      */
-    public boolean isPositionInside(Position targetPosition) {
-        return targetPosition.x >= position.x && targetPosition.y >= position.y
-                && targetPosition.x < position.x + width && targetPosition.y < position.y + height;
+    public boolean isPositionInside(Coordinates targetPosition) {
+        return targetPosition.getxCoordinates() >= position.getxCoordinates() && targetPosition.getyCoordinates() >= position.getyCoordinates()
+                && targetPosition.getxCoordinates() < position.getxCoordinates() + width && targetPosition.getyCoordinates() < position.getyCoordinates() + height;
     }
 
     /**
@@ -93,10 +97,10 @@ public class Rectangle {
      */
     public boolean isIntersecting(Rectangle otherRectangle) {
         // break if any of the following are true because it means they don't intersect
-        if(position.y + height < otherRectangle.position.y) return false;
-        if(position.y > otherRectangle.position.y + otherRectangle.height) return false;
-        if(position.x + width < otherRectangle.position.x) return false;
-        if(position.x > otherRectangle.position.x + otherRectangle.width) return false;
+        if(position.getyCoordinates() + height < otherRectangle.position.getyCoordinates()) return false;
+        if(position.getyCoordinates() > otherRectangle.position.getyCoordinates() + otherRectangle.height) return false;
+        if(position.getxCoordinates() + width < otherRectangle.position.getxCoordinates()) return false;
+        if(position.getxCoordinates() > otherRectangle.position.getxCoordinates() + otherRectangle.width) return false;
 
         // the bounding boxes do intersect
         return true;

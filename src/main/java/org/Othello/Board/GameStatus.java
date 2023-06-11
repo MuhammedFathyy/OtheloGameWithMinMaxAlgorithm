@@ -20,7 +20,7 @@ public class GameStatus {
         return true;
     }
 
-    public static int evaluate(Board board, boolean Player)
+    public static int evaluate(Board board,int Player)
     {
 
 
