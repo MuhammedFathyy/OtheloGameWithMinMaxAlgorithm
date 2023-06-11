@@ -11,11 +11,12 @@ public class GameStatus {
 
     public static boolean gameIsOver(Board board)
     {
+        int[][] board1 = board.getBoard();
         int size = Board.getSize();
         // 1st player -> 1, and 2nd player -> 0, default -> -1
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (board.getBoard()[i][j] == -1) return false;
+                if (board1[i][j] == 0) return false;
             }
         }
         return true;
