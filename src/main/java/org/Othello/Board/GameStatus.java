@@ -1,6 +1,7 @@
 package org.Othello.Board;
 
 import org.Othello.Heuristic.ActualMobilityHeuristic;
+import org.Othello.Heuristic.CoinParity;
 import org.Othello.Heuristic.CornerCapturedHeuristic;
 
 
@@ -20,16 +21,46 @@ public class GameStatus {
         return true;
     }
 
-    public static int evaluate(Board board, boolean Player)
+    public static int evaluate(Board board, int player)
     {
-
+        int discsOnBoard = 0;
 
         CornerCapturedHeuristic cornerCapturedHeuristic = new CornerCapturedHeuristic();
         ActualMobilityHeuristic actualMobilityHeuristic= new ActualMobilityHeuristic();
-        int cornerCapturedHeuristicScore = cornerCapturedHeuristic.getScore(board,Player);
-        int ActualMobilityHeuristicScore = actualMobilityHeuristic.getScore(board,Player);
+        CoinParity coinParity= new CoinParity();
 
-        //the score must be calculated based on all the heuristics
-        return 0;
+        for(int i=0; i<board.getRow();i++){
+
+            for (int j=0; j>board.getColumn();j++){
+               if(board.getBoard()[i][j] != 0 ){
+                   discsOnBoard++;
+               }
+            }
+        }
+
+        if (discsOnBoard <= 20) {
+            return 5 * actualMobilityHeuristic.getScore(board, player)
+//                    + 5 *potentialMobility(board, color)
+//                    + 20*squareWeights(board, color)
+                    + 10000* cornerCapturedHeuristic.getScore(board, player);
+//                    + 10000*stability(board, color);
+        }
+        else if (discsOnBoard <= 58) {
+
+            return 10 * coinParity.getScore(board, player)
+                    + 2 * actualMobilityHeuristic.getScore(board, player)
+//                    + 2*potentialMobility(board, color)
+//                    + 10*squareWeights(board, color)
+                    + 10000 *cornerCapturedHeuristic.getScore(board, player);
+//                    + 10000*stability(board, color);
+        }
+        else {
+            // Endgame
+            return 500* coinParity.getScore(board, player)
+                    + 10000*cornerCapturedHeuristic.getScore(board, player);
+
+        }
+
+
     }
 }

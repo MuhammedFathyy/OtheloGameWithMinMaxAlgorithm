@@ -21,7 +21,7 @@ public class CornerCapturedHeuristic {
     public CornerCapturedHeuristic() {
     }
 
-    public int getScore(Board currentBoard, boolean player) {
+    public int getScore(Board currentBoard, int player) {
 
         int playerOneScore = 0;
         int playerTwoScore = 0;
@@ -35,19 +35,19 @@ public class CornerCapturedHeuristic {
 
             Coordinates corner = corners.get(cornerIndex);
             if (board[corner.getxCoordinates()][corner.getyCoordinates()] == 1) {
-                playerOneScore += 10;
+                playerOneScore ++;
             } else if (board[corner.getxCoordinates()][corner.getyCoordinates()] == 0) {
-                playerTwoScore += 10;
+                playerTwoScore ++;
             }
         }
-        if (playerOneScore + playerTwoScore != 0)
-        {
-            cornerCapturedScore = (heuristicScore * (playerOneScore - playerTwoScore)) / (playerOneScore + playerTwoScore);
+        if (player==1) {
+            return 100 * (playerOneScore - playerTwoScore)
+                    / (playerOneScore + playerTwoScore + 1);
         }
-        else{
-            cornerCapturedScore = 0;
+        else {
+            return 100 * (playerTwoScore - playerOneScore)
+                    / (playerOneScore + playerTwoScore + 1);
         }
-        return cornerCapturedScore;
     }
 
 }
