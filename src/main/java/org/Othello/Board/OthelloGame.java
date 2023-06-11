@@ -4,6 +4,8 @@
  */
 package org.Othello.Board;
 
+import java.awt.FlowLayout;
+
 /**
  *
  * @author user
@@ -15,7 +17,10 @@ public class OthelloGame extends javax.swing.JFrame {
     public OthelloGame() {
         initComponents();
         gamePanel = new GamePanel();
+        setLayout(new FlowLayout());
         add(gamePanel);
+        pack();
+
         
     }
 
