@@ -8,14 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
- * Othello
- * Author: Peter Mitchell (2021)
- *
- * GamePanel class:
- * Controls the game state through clicks to iterate between
- * current turns and changing to a game over state once the game ends.
- */
+
 public class GamePanel extends JPanel implements MouseListener {
     /**
      * The states the game can be in.
@@ -62,7 +55,7 @@ public class GamePanel extends JPanel implements MouseListener {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(Color.LIGHT_GRAY);
 
-        gameGrid = new GameGrid(new Position(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
+        gameGrid = new GameGrid(new Coordinates(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
         setGameState(GameState.BTurn);
         chooseAIType();
         addMouseListener(this);
@@ -106,12 +99,12 @@ public class GamePanel extends JPanel implements MouseListener {
     }
 
     /**
-     * Checks the grid position is valid, and then plays the move of the current player.
+     * Checks the grid Coordinates is valid, and then plays the move of the current player.
      * The game state is swapped upon a valid move being played.
      *
      * @param gridPosition Position to apply the move at.
      */
-    private void playTurn(Position gridPosition) {
+    private void playTurn(Coordinates gridPosition) {
         if(!gameGrid.isValidMove(gridPosition)) {
             return;
         } else if(gameState == GameState.BTurn) {
@@ -197,7 +190,7 @@ public class GamePanel extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if(gameState == GameState.WTurn || gameState == GameState.BTurn) {
-            Position gridPosition = gameGrid.convertMouseToGridPosition(new Position(e.getX(), e.getY()));
+            Coordinates gridPosition = gameGrid.convertMouseToGridPosition(new Coordinates(e.getX(), e.getY()));
             playTurn(gridPosition);
             testForEndGame(true);
 

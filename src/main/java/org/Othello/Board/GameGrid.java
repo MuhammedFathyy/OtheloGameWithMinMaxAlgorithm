@@ -12,6 +12,22 @@ public class GameGrid extends Rectangle {
      */
     private GridCell[][] grid;
 
+    public int getMoveNumber() {
+        return moveNumber;
+    }
+
+    public void setMoveNumber(int moveNumber) {
+        this.moveNumber = moveNumber;
+    }
+
+    public List<Coordinates> getValidMoves() {
+        return validMoves;
+    }
+
+    public void setValidMoves(List<Coordinates> validMoves) {
+        this.validMoves = validMoves;
+    }
+
     /**
      * Move number used to track if the game is within the first 4 turns.
      */
@@ -19,7 +35,7 @@ public class GameGrid extends Rectangle {
     /**
      * A list of valid moves used for testing of who can play a move and showing valid moves.
      */
-    private List<Position> validMoves;
+    private List<Coordinates> validMoves;
 
     /**
      * Creates a grid of GridCells with the specified offset and sizing.
@@ -30,14 +46,14 @@ public class GameGrid extends Rectangle {
      * @param gridWidth Number of grid cells horizontally.
      * @param gridHeight Number of grid cells vertically.
      */
-    public GameGrid(Position position, int width, int height, int gridWidth, int gridHeight) {
+    public GameGrid(Coordinates position, int width, int height, int gridWidth, int gridHeight) {
         super(position, width, height);
         grid = new GridCell[gridWidth][gridHeight];
-        int cellWidth = (width-position.x)/gridWidth;
-        int cellHeight = (height-position.y)/gridHeight;
+        int cellWidth = (width-position.getxCoordinates())/gridWidth;
+        int cellHeight = (height-position.getyCoordinates())/gridHeight;
         for(int x = 0; x < gridWidth; x++) {
             for(int y = 0; y < gridHeight; y++) {
-                grid[x][y] = new GridCell(new Position(position.x+cellWidth*x, position.y+cellHeight*y),
+                grid[x][y] = new GridCell(new Coordinates(position.getxCoordinates()+cellWidth*x, position.getyCoordinates()+cellHeight*y),
                         cellWidth, cellHeight);
             }
         }
@@ -73,7 +89,7 @@ public class GameGrid extends Rectangle {
      *
      * @return A list containing all valid moves.
      */
-    public List<Position> getAllValidMoves() {
+    public List<Coordinates> getAllValidMoves() {
         return validMoves;
     }
 
@@ -84,12 +100,12 @@ public class GameGrid extends Rectangle {
      * @param position Grid position to play the move at.
      * @param player The player ID of the player who is placing their piece.
      */
-    public void playMove(Position position, int player) {
+    public void playMove(Coordinates position, int player) {
         moveNumber++;
-        grid[position.x][position.y].setCellState(player);
-        List<Position> changeCellPositions = getChangedPositionsForMove(position, player);
-        for(Position swapPosition : changeCellPositions) {
-            grid[swapPosition.x][swapPosition.y].setCellState(player);
+        grid[position.getxCoordinates()][position.getyCoordinates()].setCellState(player);
+        List<Coordinates> changeCellPositions = getChangedPositionsForMove(position, player);
+        for(Coordinates swapPosition : changeCellPositions) {
+            grid[swapPosition.getxCoordinates()][swapPosition.getyCoordinates()].setCellState(player);
         }
         updateValidMoves(player == 1 ? 2 : 1);
     }
@@ -100,13 +116,13 @@ public class GameGrid extends Rectangle {
      * @param mousePosition Position of the mouse in the panel.
      * @return The grid position where the mouse has clicked or a position with -1,-1 if it was invalid,
      */
-    public Position convertMouseToGridPosition(Position mousePosition) {
-        int gridX = (mousePosition.x- position.x)/grid[0][0].width;
-        int gridY = (mousePosition.y- position.y)/grid[0][0].height;
+    public Coordinates convertMouseToGridPosition(Coordinates mousePosition) {
+        int gridX = (mousePosition.getxCoordinates()- position.getxCoordinates())/grid[0][0].width;
+        int gridY = (mousePosition.getyCoordinates()- position.getyCoordinates())/grid[0][0].height;
         if(gridX >= grid.length || gridX < 0 || gridY >= grid[0].length || gridY < 0) {
-            return new Position(-1,-1);
+            return new Coordinates(-1,-1);
         }
-        return new Position(gridX,gridY);
+        return new Coordinates(gridX,gridY);
     }
 
     /**
@@ -115,7 +131,7 @@ public class GameGrid extends Rectangle {
      * @param position Grid position to verify if it is in the valid move list.
      * @return True if the position can be played as a valid move by the current player.
      */
-    public boolean isValidMove(Position position) {
+    public boolean isValidMove(Coordinates position) {
         return getAllValidMoves().contains(position);
     }
 
@@ -160,16 +176,16 @@ public class GameGrid extends Rectangle {
     private void drawGridLines(Graphics g) {
         g.setColor(Color.BLACK);
         // Draw vertical lines
-        int y2 = position.y+height;
-        int y1 = position.y;
+        int y2 = position.getyCoordinates()+height;
+        int y1 = position.getyCoordinates();
         for(int x = 0; x < grid.length+1; x++)
-            g.drawLine(position.x+x * grid[0][0].width, y1, position.x+x * grid[0][0].width, y2);
+            g.drawLine(position.getxCoordinates()+x * grid[0][0].width, y1, position.getxCoordinates()+x * grid[0][0].width, y2);
 
         // Draw horizontal lines
-        int x2 = position.x+width;
-        int x1 = position.x;
+        int x2 = position.getxCoordinates()+width;
+        int x1 = position.getxCoordinates();
         for(int y = 0; y < grid[0].length+1; y++)
-            g.drawLine(x1, position.y+y * grid[0][0].height, x2, position.y+y * grid[0][0].height);
+            g.drawLine(x1, position.getyCoordinates()+y * grid[0][0].height, x2, position.getyCoordinates()+y * grid[0][0].height);
     }
 
     /**
@@ -180,8 +196,8 @@ public class GameGrid extends Rectangle {
      */
     public void updateValidMoves(int playerID) {
         // Remove all highlighted elements so they are not valid moves visually
-        for(Position validMove : validMoves) {
-            grid[validMove.x][validMove.y].setHighlight(false);
+        for(Coordinates validMove : validMoves) {
+            grid[validMove.getxCoordinates()][validMove.getyCoordinates()].setHighlight(false);
         }
         validMoves.clear();
         // When in the first 4 turns only the middle 4 cells can be played.
@@ -191,7 +207,7 @@ public class GameGrid extends Rectangle {
             for (int x = midX; x < midX+2; x++) {
                 for (int y = midY; y < midY+2; y++) {
                     if (grid[x][y].getCellState() == 0) {
-                        validMoves.add(new Position(x, y));
+                        validMoves.add(new Coordinates(x, y));
                     }
                 }
             }
@@ -199,15 +215,15 @@ public class GameGrid extends Rectangle {
             // Otherwise find valid moves for the current player that change adjacent pieces
             for (int x = 0; x < grid.length; x++) {
                 for (int y = 0; y < grid[0].length; y++) {
-                    if (grid[x][y].getCellState() == 0 && getChangedPositionsForMove(new Position(x,y),playerID).size()>0) {
-                        validMoves.add(new Position(x, y));
+                    if (grid[x][y].getCellState() == 0 && getChangedPositionsForMove(new Coordinates(x,y),playerID).size()>0) {
+                        validMoves.add(new Coordinates(x, y));
                     }
                 }
             }
         }
         // Visually update all valid move positions to show with a highlight
-        for(Position validMove : validMoves) {
-            grid[validMove.x][validMove.y].setHighlight(true);
+        for(Coordinates validMove : validMoves) {
+            grid[validMove.getxCoordinates()][validMove.getyCoordinates()].setHighlight(true);
         }
     }
 
@@ -219,12 +235,12 @@ public class GameGrid extends Rectangle {
      * @param playerID Current player to test with.
      * @return A list of all positions that were changed from playing at move at the specified position.
      */
-    public List<Position> getChangedPositionsForMove(Position position, int playerID) {
-        List<Position> result = new ArrayList<>();
-        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Position.DOWN));
-        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Position.LEFT));
-        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Position.UP));
-        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Position.RIGHT));
+    public List<Coordinates> getChangedPositionsForMove(Coordinates position, int playerID) {
+        List<Coordinates> result = new ArrayList<>();
+        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Coordinates.DOWN));
+        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Coordinates.LEFT));
+        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Coordinates.UP));
+        result.addAll(getChangedPositionsForMoveInDirection(position, playerID, Coordinates.RIGHT));
         return result;
     }
 
@@ -236,19 +252,19 @@ public class GameGrid extends Rectangle {
      * @param direction Direction of motion to test in.
      * @return A list of all positions that were changed in the given direction if the position was played as a move.
      */
-    private List<Position> getChangedPositionsForMoveInDirection(Position position, int playerID, Position direction) {
-        List<Position> result = new ArrayList<>();
-        Position movingPos = new Position(position);
+    private List<Coordinates> getChangedPositionsForMoveInDirection(Coordinates position, int playerID, Coordinates direction) {
+        List<Coordinates> result = new ArrayList<>();
+        Coordinates movingPos = new Coordinates(position);
         int otherPlayer = playerID == 1 ? 2 : 1;
         movingPos.add(direction);
         // Keep moving while there are positions that would be changed.
-        while(inBounds(movingPos) && grid[movingPos.x][movingPos.y].getCellState() == otherPlayer) {
-            result.add(new Position(movingPos));
+        while(inBounds(movingPos) && grid[movingPos.getxCoordinates()][movingPos.getyCoordinates()].getCellState() == otherPlayer) {
+            result.add(new Coordinates(movingPos));
             movingPos.add(direction);
         }
         // If the end position is off the board, or the end playerID does not match the player, that
         // means that the move would not give any valid swaps in this direction.
-        if(!inBounds(movingPos) || grid[movingPos.x][movingPos.y].getCellState() != playerID) {
+        if(!inBounds(movingPos) || grid[movingPos.getxCoordinates()][movingPos.getyCoordinates()].getCellState() != playerID) {
             result.clear();
         }
         return result;
@@ -260,7 +276,7 @@ public class GameGrid extends Rectangle {
      * @param position Grid position to test if valid.
      * @return True if the grid position is on the grid.
      */
-    private boolean inBounds(Position position) {
-        return !(position.x < 0 || position.y < 0 || position.x >= grid.length || position.y >= grid[0].length);
+    private boolean inBounds(Coordinates position) {
+        return !(position.getxCoordinates() < 0 || position.getyCoordinates() < 0 || position.getxCoordinates() >= grid.length || position.getyCoordinates() >= grid[0].length);
     }
 }

@@ -8,7 +8,7 @@ public class GridCell extends Rectangle {
     private int cellState;
     private boolean highlight;
 
-    public GridCell(Position position, int width, int height) {
+    public GridCell(Coordinates position, int width, int height) {
         super(position, width, height);
         this.reset();
     }
@@ -32,13 +32,13 @@ public class GridCell extends Rectangle {
 
     public void paint(Graphics g) {
         if (this.highlight) {
-            g.setColor(new Color(255, 187, 22, 203));
-            g.fillRect(this.position.x, this.position.y, this.width, this.height);
+            g.setColor(new Color(22, 80, 255, 124));
+            g.fillRect(this.position.getxCoordinates(), this.position.getyCoordinates(), this.width, this.height);
         }
 
         if (this.cellState != 0) {
             g.setColor(this.cellState == 1 ? Color.BLACK : Color.WHITE);
-            g.fillOval(this.position.x, this.position.y, this.width, this.height);
+            g.fillOval(this.position.getxCoordinates(), this.position.getyCoordinates(), this.width, this.height);
         }
     }
 }

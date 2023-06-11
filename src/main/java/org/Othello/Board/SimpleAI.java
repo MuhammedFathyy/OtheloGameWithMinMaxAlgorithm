@@ -11,8 +11,8 @@ public class SimpleAI {
         this.gameGrid = gameGrid;
     }
 
-    public Position chooseMove() {
+    public Coordinates chooseMove() {
         Collections.shuffle(this.gameGrid.getAllValidMoves());
-        return (Position)this.gameGrid.getAllValidMoves().get(0);
+        return (Coordinates)this.gameGrid.getAllValidMoves().get(0);
     }
 }

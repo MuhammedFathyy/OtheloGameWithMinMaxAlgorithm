@@ -11,22 +11,11 @@ public class Board  {
     }
 
     public Board() {
-        for(int )
-    }
-     public Board(Coordinates position, int width, int height, int gridWidth, int gridHeight) {
-        super(position, width, height);
-        grid = new GridCell[gridWidth][gridHeight];
-        int cellWidth = (width-position.x)/gridWidth;
-        int cellHeight = (height-position.y)/gridHeight;
-        for(int x = 0; x < gridWidth; x++) {
-            for(int y = 0; y < gridHeight; y++) {
-                grid[x][y] = new GridCell(new Position(position.x+cellWidth*x, position.y+cellHeight*y),
-                        cellWidth, cellHeight);
+        for(int i=0;i<8;i++ ){
+            for(int j=0;i<8;j++){
+                board[i][j]=0;
             }
         }
-        moveNumber = 0;
-        validMoves = new ArrayList<>();
-        updateValidMoves(1);
     }
 
     public int getRow()
@@ -39,7 +28,7 @@ public class Board  {
     }
 
     public int[][] getBoard() {
-        //to be implemented
+
         return board;
     }
 
