@@ -3,39 +3,7 @@ package org.Othello.Board;
 import java.util.List;
 
 public class Coordinates {
-//
-//    private int xCoordinates;
-//    private int yCoordinates;
-//
-//    public Coordinates(int xCoordinates, int yCoordinates) {
-//        this.xCoordinates = xCoordinates;
-//        this.yCoordinates = yCoordinates;
-//    }
-//
-//    public Coordinates() {
-//    }
-//
-//    public int getxCoordinates() {
-//        return xCoordinates;
-//    }
-//
-//    public void setxCoordinates(int xCoordinates) {
-//        this.xCoordinates = xCoordinates;
-//    }
-//
-//    public int getyCoordinates() {
-//        return yCoordinates;
-//    }
-//
-//    public void setyCoordinates(int yCoordinates) {
-//        this.yCoordinates = yCoordinates;
-//    }
-//
-//    public static List<Coordinates> generateCoordinates(Board board , boolean maximizingPlayer)
-//    {
-//        return null;
-//    }
-
+    
     /**
      * Down moving unit vector.
      */
@@ -57,29 +25,46 @@ public class Coordinates {
      */
     public static final Coordinates ZERO = new Coordinates(0,0);
 
-    /**
-     * X coordinate.
-     */
-    public int x;
-    /**
-     * Y coordinate.
-     */
-    public int y;
 
+    private int xCoordinates;
+    private int yCoordinates;
+
+    public Coordinates(int xCoordinates, int yCoordinates) {
+        this.xCoordinates = xCoordinates;
+        this.yCoordinates = yCoordinates;
+    }
+
+    public Coordinates() {
+    }
+
+    public int getxCoordinates() {
+        return xCoordinates;
+    }
+
+    public void setxCoordinates(int xCoordinates) {
+        this.xCoordinates = xCoordinates;
+    }
+
+    public int getyCoordinates() {
+        return yCoordinates;
+    }
+
+    public void setyCoordinates(int yCoordinates) {
+        this.yCoordinates = yCoordinates;
+    }
 
     public static List<Coordinates> generateCoordinates(Board board , boolean maximizingPlayer)
     {
         return null;
     }
-    public Coordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+    
+    
+    
 
 
     public Coordinates(Coordinates CoordinatesToCopy) {
-        this.x = CoordinatesToCopy.x;
-        this.y = CoordinatesToCopy.y;
+        this.xCoordinates = CoordinatesToCopy.xCoordinates;
+        this.yCoordinates = CoordinatesToCopy.yCoordinates;
     }
 
     /**
@@ -89,32 +74,18 @@ public class Coordinates {
      * @param y Y coordinate.
      */
     public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.xCoordinates = xCoordinates;
+        this.yCoordinates = yCoordinates;
     }
 
-    public int getxCoordinates() {
-        return x;
-    }
-
-    public void setxCoordinates(int x) {
-        this.x = x;
-    }
-
-    public int getyCoordinates() {
-        return y;
-    }
-
-    public void setyCoordinates(int y) {
-        this.y = y;
-    }
+ 
     public void add(Coordinates otherCoordinates) {
-        this.x += otherCoordinates.x;
-        this.y += otherCoordinates.y;
+        this.xCoordinates += otherCoordinates.xCoordinates;
+        this.yCoordinates += otherCoordinates.yCoordinates;
     }
 
     public double distanceTo(Coordinates otherCoordinates) {
-        return Math.sqrt(Math.pow(x-otherCoordinates.x,2)+Math.pow(y-otherCoordinates.y,2));
+        return Math.sqrt(Math.pow(xCoordinates-otherCoordinates.xCoordinates,2)+Math.pow(yCoordinates-otherCoordinates.yCoordinates,2));
     }
 
     /**
@@ -123,14 +94,14 @@ public class Coordinates {
      * @param amount Amount to multiply vector by.
      */
     public void multiply(int amount) {
-        x *= amount;
-        y *= amount;
+        xCoordinates *= amount;
+        yCoordinates *= amount;
     }
 
 
     public void subtract(Coordinates otherCoordinates) {
-        this.x -= otherCoordinates.x;
-        this.y -= otherCoordinates.y;
+        this.xCoordinates -= otherCoordinates.xCoordinates;
+        this.yCoordinates -= otherCoordinates.yCoordinates;
     }
 
     /**
@@ -145,7 +116,7 @@ public class Coordinates {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Coordinates Coordinates = (Coordinates) o;
-        return x == Coordinates.x && y == Coordinates.y;
+        return xCoordinates == Coordinates.xCoordinates && yCoordinates == Coordinates.yCoordinates;
     }
 
     /**
@@ -155,6 +126,8 @@ public class Coordinates {
      */
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ")";
+        return "(" + xCoordinates + ", " + yCoordinates + ")";
     }
 }
+
+
