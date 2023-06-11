@@ -16,12 +16,12 @@ public class MinimaxWithAlphaBeta {
     public Coordinates minimaxAlphaBeta(Board board, int depth,int playerNumber) {
         boolean maximizingPlayer= true;
         //return the available moves
-        List<Coordinates> possibleCoordinates = getAllValidMoves(board, playerNumber);
+        List<Coordinates> possibleCoordinates = getAvailableMoves(board, playerNumber);
         Coordinates result = null;
         int bestValue = Integer.MIN_VALUE;
 
         for (Coordinates coordinates : possibleCoordinates) {
-            Board newBoard = makeMove(board, coordinates);
+            Board newBoard = makeMove(board, coordinates,playerNumber);
             int value = maxValue(newBoard, depth - 1, !maximizingPlayer,playerNumber, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
             if (value > bestValue) {
@@ -39,10 +39,10 @@ public class MinimaxWithAlphaBeta {
             return evaluate(board , playerNumber);
         }
 
-        List<Coordinates> possibleMoves = getAllValidMoves(board, playerNumber);
+        List<Coordinates> possibleMoves = getAvailableMoves(board, playerNumber);
 
         for (Coordinates move : possibleMoves) {
-            Board newBoard = makeMove(board, move);
+            Board newBoard = makeMove(board, move,playerNumber);
 
             alpha =  Math.max(alpha, minValue(newBoard, depth - 1, !maximizingPlayer,playerNumber, alpha, beta));
             //alpha = maximizingPlayer? Math.max(alpha, maxValue(newBoard, depth - 1, maximizingPlayer, alpha, beta)):alpha;
@@ -61,10 +61,11 @@ public class MinimaxWithAlphaBeta {
             return evaluate(board ,playerNumber);
         }
 
-        List<Coordinates> possibleMoves = getAllValidMoves(board, playerNumber);
+        List<Coordinates> possibleMoves = getAvailableMoves(board, playerNumber);
 
         for (Coordinates move : possibleMoves) {
-            Board newBoard = makeMove(board, move);
+            //we should send the player number
+            Board newBoard = makeMove(board, move,playerNumber);
             beta = Math.min(beta, maxValue(newBoard, depth - 1, !minimizingPlayer,playerNumber, alpha, beta));
 
             if (beta <= alpha) {
