@@ -2,9 +2,8 @@ package org.Othello.MiniMax;
 
 import org.Othello.Board.Board;
 import org.Othello.Board.Coordinates;
-import org.Othello.Board.Moves;
 
-import java.util.*;
+import java.util.List;
 
 import static org.Othello.Board.GameStatus.evaluate;
 import static org.Othello.Board.GameStatus.gameIsOver;
