@@ -22,7 +22,7 @@ public class GameStatus {
 
     public static int evaluate(Board board, boolean Player)
     {
-        //List<Coordinates> availableMoves = generateCoordinates(board , Player);
+
 
         CornerCapturedHeuristic cornerCapturedHeuristic = new CornerCapturedHeuristic();
         ActualMobilityHeuristic actualMobilityHeuristic= new ActualMobilityHeuristic();

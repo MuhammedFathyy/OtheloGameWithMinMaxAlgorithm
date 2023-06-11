@@ -27,6 +27,7 @@ public class CornerCapturedHeuristic {
         int playerTwoScore = 0;
         int cornerCapturedScore = 0;
 
+        //get the current board based on the move
         int[][] board = currentBoard.getBoard();
 
 

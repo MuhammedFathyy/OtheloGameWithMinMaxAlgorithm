@@ -14,6 +14,7 @@ import static org.Othello.Board.Moves.makeMove;
 public class MinimaxWithAlphaBeta {
 
     public Coordinates minimaxAlphaBeta(Board board, int depth, Boolean maximizingPlayer) {
+        //return the available moves
         List<Coordinates> possibleCoordinates = getAvailableMoves(board, maximizingPlayer);
         Coordinates result = null;
         int bestValue = Integer.MIN_VALUE;
