@@ -1,14 +1,12 @@
 
 package org.Othello.Board;
-import org.Othello.MiniMax.MinimaxWithAlphaBeta;
-
 import java.awt.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 
 public class GamePanel extends JPanel implements MouseListener {
@@ -20,7 +18,6 @@ public class GamePanel extends JPanel implements MouseListener {
      * WWins means the white had more pieces at the end of the game.
      * BWins means the black had more pieces at the end of the game.
      */
-
     public enum GameState {WTurn,BTurn,Draw,WWins,BWins}
 
     /**
@@ -37,11 +34,7 @@ public class GamePanel extends JPanel implements MouseListener {
      */
     private Grid gameGrid ;
     private  Moves moves ;
-
-    private Board b;
-
-
-  /**
+    /**
      * The current game state.
      */
     private GameState gameState;
@@ -53,8 +46,8 @@ public class GamePanel extends JPanel implements MouseListener {
     /**
      * Null for PvP or set to an AI behaviour to make the AI play out the white turns.
      */
-//    private MinimaxWithAlphaBeta aiBehaviour;
-        private SimpleAI aiBehaviour;
+    private SimpleAI aiBehaviour;
+
     /**
      * Configures the game ready to be played including selection of playing against either
      * AI or another player.
@@ -63,9 +56,9 @@ public class GamePanel extends JPanel implements MouseListener {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(Color.LIGHT_GRAY);
 
+
         gameGrid = new Grid(new Coordinates(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
         moves  = new Moves(gameGrid);
-
         setGameState(GameState.BTurn);
         addMouseListener(this);
         chooseAIType(gameMode);
@@ -92,6 +85,23 @@ public class GamePanel extends JPanel implements MouseListener {
     }
 
 
+    /**
+     * Handles the key input to have Escape exit the game,
+     * R will restart the game, and A will swap the AI mode.
+     *
+     * @param keyCode The key that was pressed.
+     */
+    public void handleInput(int keyCode) {
+        if(keyCode == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        } else if(keyCode == KeyEvent.VK_R) {
+            restart();
+            repaint();
+//        } else if(keyCode == KeyEvent.VK_A) {
+//            chooseAIType();
+//        }
+    }
+    }
 
     /**
      * Checks the grid Coordinates is valid, and then plays the move of the current player.
@@ -221,7 +231,7 @@ public class GamePanel extends JPanel implements MouseListener {
                 aiBehaviour = new SimpleAI(gameGrid);
                 break;
             case "Computer vs Computer":
-//                aiBehaviour = new SimpleAI(gameGrid);
+                aiBehaviour = new SimpleAI(gameGrid);
                 break;
         }
     }
