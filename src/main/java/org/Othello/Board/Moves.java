@@ -14,13 +14,14 @@ public class Moves extends Rectangle {
 //    public void setPosition(Coordinates position) {
 //        this.position = position;
 //    }
+    private Coordinates pos;
 
-    private Coordinates position;
     static GridCell [][] grid;
     public Moves(Grid gr){
         this.g = gr;
         mn=g.getMoveNumber();
         grid=gr.getGrid();
+        pos =g.position;
 
     }
 
@@ -112,8 +113,8 @@ public class Moves extends Rectangle {
      * @return The grid position where the mouse has clicked or a position with -1,-1 if it was invalid,
      */
     public Coordinates convertMouseToGridPosition(Coordinates mousePosition) {
-        int gridX = (mousePosition.getxCoordinates()- position.getxCoordinates())/grid[0][0].width;
-        int gridY = (mousePosition.getyCoordinates()- position.getyCoordinates())/grid[0][0].height;
+        int gridX = (mousePosition.getxCoordinates()- pos.getxCoordinates())/grid[0][0].width;
+        int gridY = (mousePosition.getyCoordinates()- pos.getyCoordinates())/grid[0][0].height;
         if(gridX >= grid.length || gridX < 0 || gridY >= grid[0].length || gridY < 0) {
             return new Coordinates(-1,-1);
         }
