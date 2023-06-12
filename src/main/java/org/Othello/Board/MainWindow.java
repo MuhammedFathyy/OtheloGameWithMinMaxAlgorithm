@@ -3,6 +3,8 @@ package org.Othello.Board;
 
 //import org.Othello.Board.OthelloGame;
 
+import javax.swing.*;
+
 public class MainWindow extends javax.swing.JFrame {
 
     /**
@@ -149,10 +151,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_modeComponentAdded
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-       OthelloGame newWindow = new OthelloGame();
-       newWindow.setVisible(true);
-       newWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//       OthelloGame newWindow = new OthelloGame();
+//       newWindow.setVisible(true);
+//       newWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        String gameMode = (String) mode.getSelectedItem();
+        String selectedDiff = (String)difficulty.getSelectedItem();
+        OthelloGame newWindow = new OthelloGame(gameMode,selectedDiff);
+        newWindow.setVisible(true);
+        newWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
     }//GEN-LAST:event_jButton1MouseClicked
+
 
     /**
      * @param args the command line arguments

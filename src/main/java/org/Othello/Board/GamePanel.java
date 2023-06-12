@@ -51,13 +51,13 @@ public class GamePanel extends JPanel implements MouseListener {
      * Configures the game ready to be played including selection of playing against either
      * AI or another player.
      */
-    public GamePanel() {
+    public GamePanel(String gameMode,String difficulty) {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(Color.LIGHT_GRAY);
 
         gameGrid = new GameGrid(new Coordinates(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
         setGameState(GameState.BTurn);
-        chooseAIType();
+        chooseAIType(gameMode);
         addMouseListener(this);
     }
 
@@ -87,16 +87,16 @@ public class GamePanel extends JPanel implements MouseListener {
      *
      * @param keyCode The key that was pressed.
      */
-    public void handleInput(int keyCode) {
-        if(keyCode == KeyEvent.VK_ESCAPE) {
-            System.exit(0);
-        } else if(keyCode == KeyEvent.VK_R) {
-            restart();
-            repaint();
-        } else if(keyCode == KeyEvent.VK_A) {
-            chooseAIType();
-        }
-    }
+//    public void handleInput(int keyCode) {
+//        if(keyCode == KeyEvent.VK_ESCAPE) {
+//            System.exit(0);
+//        } else if(keyCode == KeyEvent.VK_R) {
+//            restart();
+//            repaint();
+//        } else if(keyCode == KeyEvent.VK_A) {
+//            chooseAIType();
+//        }
+//    }
 
     /**
      * Checks the grid Coordinates is valid, and then plays the move of the current player.
@@ -216,23 +216,16 @@ public class GamePanel extends JPanel implements MouseListener {
         g.drawString(gameStateStr, PANEL_WIDTH/2-strWidth/2, PANEL_HEIGHT-40);
     }
 
-    /**
-     * Shows a dialog box with options to select PvP or PvAI with Random.
-     * Choosing PvP leaves the AI behaviour unset, and otherwise creates
-     * an instance of the appropriate AI.
-     */
-    private void chooseAIType() {
-        String[] options = new String[] {"Player vs Player", "Player vs Random AI"};
-        String message = "Select the game mode you would like to use.";
-        int difficultyChoice = JOptionPane.showOptionDialog(null, message,
-                "Choose how to play.",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[0]);
-        switch(difficultyChoice) {
-            case 0: // Remove the AI so it becomes PvP
+
+    private void chooseAIType(String gameMode) {
+        switch(gameMode) {
+            case "Human vs Human": // Remove the AI so it becomes PvP
                 aiBehaviour = null;
                 break;
-            case 1:
+            case "Human vs Computer":
+                aiBehaviour = new SimpleAI(gameGrid);
+                break;
+            case "Computer vs Computer":
                 aiBehaviour = new SimpleAI(gameGrid);
                 break;
         }

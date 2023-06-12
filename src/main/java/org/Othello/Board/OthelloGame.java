@@ -11,9 +11,9 @@ public class OthelloGame extends javax.swing.JFrame {
 
    private GamePanel gamePanel;
    
-    public OthelloGame() {
+    public OthelloGame(String mode,String difficulty) {
         initComponents();
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(mode,difficulty);
         setLayout(new FlowLayout());
         add(gamePanel);
         pack();

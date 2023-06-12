@@ -32,7 +32,7 @@ public class GridCell extends Rectangle {
 
     public void paint(Graphics g) {
         if (this.highlight) {
-            g.setColor(new Color(22, 80, 255, 124));
+            g.setColor(new Color(12, 99, 199, 150));
             g.fillRect(this.position.getxCoordinates(), this.position.getyCoordinates(), this.width, this.height);
         }
 
