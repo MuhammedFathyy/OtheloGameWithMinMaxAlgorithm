@@ -1,7 +1,7 @@
 package org.Othello.Heuristic;
 
-import com.sun.tools.javac.util.Pair;
 import org.Othello.Board.Board;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class PotentialMobilityHeuristic {
         ArrayList<Pair<Integer, Integer>> squares = new ArrayList<>();
         for (int i = 2; i <= 5; i++) {
             for (int j = 2; j <= 5; j++) {
-                squares.add(new Pair<>(i,j));
+                squares.add(Pair.of(i,j));
             }
         }
 //                18, 19, 20, 21,   2,2   2,3     2,4     2,5
@@ -32,15 +32,15 @@ public class PotentialMobilityHeuristic {
         int potentialMobility = 0;
 
         for (Pair<Integer, Integer> square : squares) {
-            here = myBoard[square.fst][square.snd];
-            up = myBoard[square.fst - 1][square.snd];
-            down = myBoard[square.fst + 1][square.snd];
-            left = myBoard[square.fst][square.snd - 1];
-            right = myBoard[square.fst][square.snd + 1];
-            upperLeft = myBoard[square.fst - 1][square.snd - 1];
-            upperRight = myBoard[square.fst - 1][square.snd + 1];
-            lowerLeft = myBoard[square.fst + 1][square.snd - 1];
-            lowerRight = myBoard[square.fst + 1][square.snd + 1];
+            here = myBoard[square.getLeft()][square.getRight()];
+            up = myBoard[square.getLeft() - 1][square.getRight()];
+            down = myBoard[square.getLeft() + 1][square.getRight()];
+            left = myBoard[square.getLeft()][square.getRight() - 1];
+            right = myBoard[square.getLeft()][square.getRight() + 1];
+            upperLeft = myBoard[square.getLeft() - 1][square.getRight() - 1];
+            upperRight = myBoard[square.getLeft() - 1][square.getRight() + 1];
+            lowerLeft = myBoard[square.getLeft() + 1][square.getRight() - 1];
+            lowerRight = myBoard[square.getLeft() + 1][square.getRight() + 1];
 
             if (here == -color && up == 0)
                 potentialMobility++;
@@ -61,11 +61,11 @@ public class PotentialMobilityHeuristic {
         }
 
         ArrayList<Pair<Integer, Integer>> topRow = new ArrayList<>();
-        for (int i = 2; i <= 4; i++) topRow.add(new Pair<>(1, i));
+        for (int i = 2; i <= 4; i++) topRow.add(Pair.of(1, i));
         for (Pair<Integer, Integer> square : topRow) {
-            here = myBoard[square.fst][square.snd];
-            left = myBoard[square.fst][square.snd - 1];
-            right = myBoard[square.fst][square.snd + 1];
+            here = myBoard[square.getLeft()][square.getRight()];
+            left = myBoard[square.getLeft()][square.getRight() - 1];
+            right = myBoard[square.getLeft()][square.getRight() + 1];
             if (here == -color && left == 0)
                 potentialMobility++;
             if (here == -color && right == 0)
@@ -73,12 +73,12 @@ public class PotentialMobilityHeuristic {
         }
 
         ArrayList<Pair<Integer, Integer>> bottomRow = new ArrayList<>();
-        for (int i = 2; i <= 4; i++) bottomRow.add(new Pair<>(6, i));
+        for (int i = 2; i <= 4; i++) bottomRow.add(Pair.of(6, i));
 //      {50, 51, 52, 53}
         for (Pair<Integer, Integer> square : bottomRow) {
-            here = myBoard[square.fst][square.snd];
-            left = myBoard[square.fst][square.snd];
-            right = myBoard[square.fst][square.snd];
+            here = myBoard[square.getLeft()][square.getRight()];
+            left = myBoard[square.getLeft()][square.getRight() - 1];
+            right = myBoard[square.getLeft()][square.getRight() + 1];
             if (here == -color && left == 0)
                 potentialMobility++;
             if (here == -color && right == 0)
@@ -86,12 +86,12 @@ public class PotentialMobilityHeuristic {
         }
 
         ArrayList<Pair<Integer, Integer>> leftColumn = new ArrayList<>();
-        for (int i = 2; i <= 4; i++) leftColumn.add(new Pair<>(i, 1));
+        for (int i = 2; i <= 4; i++) leftColumn.add(Pair.of(i, 1));
 //        {17, 25, 33, 41};
         for (Pair<Integer, Integer> square : leftColumn) {
-            here = myBoard[square.fst][square.snd];
-            up = myBoard[square.fst - 1][square.snd];
-            down = myBoard[square.fst + 1][square.snd];
+            here = myBoard[square.getLeft()][square.getRight()];
+            up = myBoard[square.getLeft() - 1][square.getRight()];
+            down = myBoard[square.getLeft() + 1][square.getRight()];
             if (here == -color && up == 0)
                 potentialMobility++;
             if (here == -color && down == 0)
@@ -99,12 +99,12 @@ public class PotentialMobilityHeuristic {
         }
 
         ArrayList<Pair<Integer, Integer>> rightColumn = new ArrayList<>();
-        for (int i = 2; i <= 4; i++) rightColumn.add(new Pair<>(i, 6));
+        for (int i = 2; i <= 4; i++) rightColumn.add(Pair.of(i, 6));
 //      {22, 30, 38, 46};
         for (Pair<Integer, Integer> square : leftColumn) {
-            here = myBoard[square.fst][square.snd];
-            up = myBoard[square.fst + 1][square.snd];
-            down = myBoard[square.fst - 1][square.snd];
+            here = myBoard[square.getLeft()][square.getRight()];
+            up = myBoard[square.getLeft() + 1][square.getRight()];
+            down = myBoard[square.getLeft() - 1][square.getRight()];
             if (here == -color && up == 0)
                 potentialMobility++;
             if (here == -color && down == 0)
