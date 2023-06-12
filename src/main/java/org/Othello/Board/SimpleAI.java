@@ -5,14 +5,14 @@ package org.Othello.Board;
 import java.util.Collections;
 
 public class SimpleAI {
-    private GameGrid gameGrid;
-
-    public SimpleAI(GameGrid gameGrid) {
+    private Grid gameGrid;
+    private Moves moves;
+    public SimpleAI(Grid gameGrid) {
         this.gameGrid = gameGrid;
     }
 
     public Coordinates chooseMove() {
-        Collections.shuffle(this.gameGrid.getAllValidMoves());
-        return (Coordinates)this.gameGrid.getAllValidMoves().get(0);
+        Collections.shuffle(this.moves.getAllValidMoves());
+        return (Coordinates)this.moves.getAllValidMoves().get(0);
     }
 }

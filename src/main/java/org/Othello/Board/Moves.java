@@ -3,14 +3,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Moves extends Rectangle {
+    Grid g;
 
+    public Moves(Grid gr){
 
-    private Moves(){
-        super();
+        this.g = gr;
     }
 
 
-    Grid g;
+
     static GridCell [][] grid;
     int mn =g.getMoveNumber();
     private static List<Coordinates> validMoves;

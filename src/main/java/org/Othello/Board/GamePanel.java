@@ -32,7 +32,8 @@ public class GamePanel extends JPanel implements MouseListener {
     /**
      * The grid of positions controlling maintaining the game state of the board.
      */
-    private GameGrid gameGrid;
+    private Grid gameGrid;
+    private  Moves moves;
     /**
      * The current game state.
      */
@@ -55,10 +56,14 @@ public class GamePanel extends JPanel implements MouseListener {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(Color.LIGHT_GRAY);
 
-        gameGrid = new GameGrid(new Coordinates(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
+
+        gameGrid = new Grid(new Coordinates(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
+
         setGameState(GameState.BTurn);
-        chooseAIType(gameMode);
         addMouseListener(this);
+        moves  =new Moves(gameGrid);
+        chooseAIType(gameMode);
+
     }
 
     /**
@@ -76,7 +81,7 @@ public class GamePanel extends JPanel implements MouseListener {
      * Resets the grid and returns the turn back to default.
      */
     public void restart() {
-        gameGrid.reset();
+        moves.reset();
         setGameState(GameState.BTurn);
     }
 
@@ -105,13 +110,13 @@ public class GamePanel extends JPanel implements MouseListener {
      * @param gridPosition Position to apply the move at.
      */
     private void playTurn(Coordinates gridPosition) {
-        if(!gameGrid.isValidMove(gridPosition)) {
+        if(!moves.isValidMove(gridPosition)) {
             return;
         } else if(gameState == GameState.BTurn) {
-            gameGrid.playMove(gridPosition, 1);
+            moves.playMove(gridPosition, 1);
             setGameState(GameState.WTurn);
         } else if(gameState == GameState.WTurn) {
-            gameGrid.playMove(gridPosition, 2);
+            moves.playMove(gridPosition, 2);
             setGameState(GameState.BTurn);
         }
     }
@@ -127,12 +132,12 @@ public class GamePanel extends JPanel implements MouseListener {
         switch (gameState) {
             case WTurn:
                 // If there are moves for the White player
-                if(gameGrid.getAllValidMoves().size() > 0) {
+                if(moves.getAllValidMoves().size() > 0) {
                     gameStateStr = "White Player Turn";
                 } else {
                     // No moves for the white player. Check the black player
-                    gameGrid.updateValidMoves(1);
-                    if(gameGrid.getAllValidMoves().size() > 0) {
+                    moves.updateValidMoves(1);
+                    if(moves.getAllValidMoves().size() > 0) {
                         // The black player has moves, swap back to them
                         setGameState(GameState.BTurn);
                     } else {
@@ -143,12 +148,12 @@ public class GamePanel extends JPanel implements MouseListener {
                 break;
             case BTurn:
                 // If there are moves for the Black player
-                if(gameGrid.getAllValidMoves().size() > 0) {
+                if(moves.getAllValidMoves().size() > 0) {
                     gameStateStr = "Black Player Turn";
                 } else {
                     // No moves for the black player. Check the white player
-                    gameGrid.updateValidMoves(2);
-                    if(gameGrid.getAllValidMoves().size() > 0) {
+                    moves.updateValidMoves(2);
+                    if(moves.getAllValidMoves().size() > 0) {
                         // The white player has moves, swap back to them
                         setGameState(GameState.WTurn);
                     } else {
@@ -168,7 +173,7 @@ public class GamePanel extends JPanel implements MouseListener {
      * the game state appropriately.
      */
     private void testForEndGame(boolean stillValidMoves) {
-        int gameResult = gameGrid.getWinner(stillValidMoves);
+        int gameResult = moves.getWinner(stillValidMoves);
         if(gameResult == 1) {
             setGameState(GameState.BWins);
         } else if(gameResult == 2) {
@@ -190,7 +195,7 @@ public class GamePanel extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if(gameState == GameState.WTurn || gameState == GameState.BTurn) {
-            Coordinates gridPosition = gameGrid.convertMouseToGridPosition(new Coordinates(e.getX(), e.getY()));
+            Coordinates gridPosition = moves.convertMouseToGridPosition(new Coordinates(e.getX(), e.getY()));
             playTurn(gridPosition);
             testForEndGame(true);
 
