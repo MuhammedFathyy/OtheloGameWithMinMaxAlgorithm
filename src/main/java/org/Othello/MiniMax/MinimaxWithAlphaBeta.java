@@ -3,23 +3,26 @@ package org.Othello.MiniMax;
 import org.Othello.Board.Board;
 import org.Othello.Board.Coordinates;
 
-import java.util.*;
+import java.util.List;
 
-import static org.Othello.Board.Coordinates.generateCoordinates;
 import static org.Othello.Board.GameStatus.evaluate;
 import static org.Othello.Board.GameStatus.gameIsOver;
+import static org.Othello.Board.Moves.getAvailableMoves;
 import static org.Othello.Board.Moves.makeMove;
 
 public class MinimaxWithAlphaBeta {
 
-    public Coordinates minimaxAlphaBeta(Board board, int depth, Boolean maximizingPlayer) {
-        List<Coordinates> possibleCoordinates = generateCoordinates(board, maximizingPlayer);
+    public Coordinates minimaxAlphaBeta(Board board, int depth,int playerNumber , String difficulty) {
+        boolean maximizingPlayer= true;
+        //return the available moves
+        List<Coordinates> possibleCoordinates = getAvailableMoves(board, playerNumber);
         Coordinates result = null;
         int bestValue = Integer.MIN_VALUE;
-
+        depth = (difficulty.toLowerCase().equals("hard"))? 5 : 3;
         for (Coordinates coordinates : possibleCoordinates) {
-            Board newBoard = makeMove(board, coordinates);
-            int value = maxValue(newBoard, depth - 1, !maximizingPlayer, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            Board newBoard = makeMove(board, coordinates,playerNumber);
+            int value = maxValue(newBoard, depth - 1, !maximizingPlayer
+                    , playerNumber, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
             if (value > bestValue) {
                 bestValue = value;
@@ -30,18 +33,22 @@ public class MinimaxWithAlphaBeta {
         return result;
     }
 
-    private int maxValue(Board board, int depth, Boolean maximizingPlayer, int alpha, int beta) {
+    private int maxValue(Board board, int depth, Boolean maximizingPlayer,int playerNumber,
+                         int alpha, int beta) {
+
         if (depth == 0 || gameIsOver(board)) {
-            return evaluate(board);
+            return evaluate(board , playerNumber);
         }
 
-        List<Coordinates> possibleMoves = generateCoordinates(board, maximizingPlayer);
+        List<Coordinates> possibleMoves = getAvailableMoves(board, playerNumber);
 
         for (Coordinates move : possibleMoves) {
-            Board newBoard = makeMove(board, move);
+            Board newBoard = makeMove(board, move,playerNumber);
 
-            alpha = maximizingPlayer? Math.max(alpha, maxValue(newBoard, depth - 1, maximizingPlayer, alpha, beta)):alpha;
-            beta = maximizingPlayer? beta:Math.min(beta, maxValue(newBoard, depth - 1, !maximizingPlayer, alpha, beta));
+            alpha =  Math.max(alpha, minValue(newBoard, depth - 1,
+                    !maximizingPlayer,playerNumber, alpha, beta ));
+            //alpha = maximizingPlayer? Math.max(alpha, maxValue(newBoard, depth - 1, maximizingPlayer, alpha, beta)):alpha;
+            //beta = maximizingPlayer? beta:Math.min(beta, maxValue(newBoard, depth - 1, !maximizingPlayer, alpha, beta));
 
             if (alpha >= beta) {
                 break;  // Alpha-Beta Pruning
@@ -50,23 +57,26 @@ public class MinimaxWithAlphaBeta {
 
         return maximizingPlayer? alpha:beta;
     }
-//
-//    private int minValue(Board board, int depth, Boolean minimizingPlayer, int alpha, int beta) {
-//        if (depth == 0 || gameIsOver(board)) {
-//            return evaluate(board);
-//        }
-//
-//        List<Coordinates> possibleMoves = generateCoordinates(board, minimizingPlayer);
-//
-//        for (Move move : possibleMoves) {
-//            Board newBoard = makeMove(board, move);
-//            beta = Math.min(beta, maxValue(newBoard, depth - 1, minimizingPlayer.opposite(), alpha, beta));
-//
-//            if (beta <= alpha) {
-//                break;  // Alpha-Beta Pruning
-//            }
-//        }
-//
-//        return beta;
-//    }
+
+    private int minValue(Board board, int depth, Boolean minimizingPlayer,int playerNumber,
+                         int alpha, int beta ) {
+        if (depth == 0 || gameIsOver(board)) {
+            return evaluate(board ,playerNumber );
+        }
+
+        List<Coordinates> possibleMoves = getAvailableMoves(board, playerNumber);
+
+        for (Coordinates move : possibleMoves) {
+            //we should send the player number
+            Board newBoard = makeMove(board, move,playerNumber);
+            beta = Math.min(beta, maxValue(newBoard, depth - 1,
+                    !minimizingPlayer,playerNumber, alpha, beta ));
+
+            if (beta <= alpha) {
+                break;  // Alpha-Beta Pruning
+            }
+        }
+
+        return beta;
+    }
 }
