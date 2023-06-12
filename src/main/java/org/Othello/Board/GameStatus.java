@@ -33,7 +33,7 @@ public class GameStatus {
 
         for(int i=0; i<board.getRow();i++){
 
-            for (int j=0; j>board.getColumn();j++){
+            for (int j=0; j<board.getColumn();j++){
                if(board.getBoard()[i][j] != 0 ){
                    discsOnBoard++;
                }
