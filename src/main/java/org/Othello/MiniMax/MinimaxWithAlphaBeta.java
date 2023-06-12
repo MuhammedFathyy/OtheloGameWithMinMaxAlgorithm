@@ -22,7 +22,7 @@ public class MinimaxWithAlphaBeta {
         for (Coordinates coordinates : possibleCoordinates) {
             Board newBoard = makeMove(board, coordinates,playerNumber);
             int value = maxValue(newBoard, depth - 1, !maximizingPlayer
-                    , playerNumber, Integer.MIN_VALUE, Integer.MAX_VALUE , difficulty);
+                    , playerNumber, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
             if (value > bestValue) {
                 bestValue = value;
