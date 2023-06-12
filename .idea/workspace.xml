@@ -25,21 +25,6 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/Othello/Board/GamePanel.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/Othello/Board/GamePanel.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/Othello/Board/GamePanel.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/Othello/Board/GamePanel.java</url>
           <line>134</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
@@ -59,7 +44,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/org/Othello/Board/Moves.java</url>
-          <line>102</line>
+          <line>103</line>
           <properties class="org.Othello.Board.Moves" method="getAllValidMoves">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
