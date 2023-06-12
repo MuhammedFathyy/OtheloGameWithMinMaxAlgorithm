@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Moves extends Rectangle {
-    Grid g ;
-    int mn;
+    private Grid g ;
+    private int moveNo;
 
     @Override
     public Coordinates getPosition() {
@@ -19,7 +19,7 @@ public class Moves extends Rectangle {
     static GridCell [][] grid;
     public Moves(Grid gr){
         this.g = gr;
-        mn=g.getMoveNumber();
+        moveNo=g.getMoveNumber();
         grid=gr.getGrid();
         pos =g.position;
 
@@ -74,8 +74,8 @@ public class Moves extends Rectangle {
      * @param player The player ID of the player who is placing their piece.
      */
     public void playMove(Coordinates position, int player) {
-        mn++;
-        g.setMoveNumber(mn);
+        moveNo++;
+        g.setMoveNumber(moveNo);
         grid[position.getxCoordinates()][position.getyCoordinates()].setCellState(player);
         List<Coordinates> changeCellPositions = getChangedPositionsForMove(position, player);
         for(Coordinates swapPosition : changeCellPositions) {
