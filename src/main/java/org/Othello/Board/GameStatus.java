@@ -1,14 +1,11 @@
 package org.Othello.Board;
 
-import org.Othello.Heuristic.ActualMobilityHeuristic;
-import org.Othello.Heuristic.CoinParity;
-import org.Othello.Heuristic.CornerCapturedHeuristic;
-import org.Othello.Heuristic.PotentialMobilityHeuristic;
+import org.Othello.Heuristic.*;
 
 
 public class GameStatus {
 
-    private GameStatus(){};
+    private GameStatus(){}
 
     public static boolean gameIsOver(Board board)
     {
@@ -30,6 +27,7 @@ public class GameStatus {
         ActualMobilityHeuristic actualMobilityHeuristic= new ActualMobilityHeuristic();
         CoinParity coinParity= new CoinParity();
         PotentialMobilityHeuristic potentialMobilityHeuristic= new PotentialMobilityHeuristic();
+        StabilityHeuristic stabilityHeuristic = new StabilityHeuristic();
 
         for(int i=0; i<board.getRow();i++){
 
@@ -42,24 +40,27 @@ public class GameStatus {
 
         if (discsOnBoard <= 20) {
             //start of the game
-            return 5 * actualMobilityHeuristic.getScore(board, player)
-                + 5 * potentialMobilityHeuristic.getScore(board, player)
-                    + 10000* cornerCapturedHeuristic.getScore(board, player);
-//                  
+            return 5 * actualMobilityHeuristic.getScore(board, player) +
+                    5 * potentialMobilityHeuristic.getScore(board, player) +
+                    10000 * cornerCapturedHeuristic.getScore(board, player) +
+                    10000 * stabilityHeuristic.getScore(board , player);
+
         }
         else if (discsOnBoard <= 58) {
 
             //middle of the game
-            return 10 * coinParity.getScore(board, player)
-                    + 2 * actualMobilityHeuristic.getScore(board, player)
-                     +  2* potentialMobilityHeuristic.getScore(board, player)
-                    + 10000 *cornerCapturedHeuristic.getScore(board, player);
+            return 10 * coinParity.getScore(board, player)+
+                    2 * actualMobilityHeuristic.getScore(board, player) +
+                    2 * potentialMobilityHeuristic.getScore(board, player) +
+                    10000 * cornerCapturedHeuristic.getScore(board, player) +
+                    10000 * stabilityHeuristic.getScore(board , player);
 
         }
         else {
             // End of the game
-            return 500* coinParity.getScore(board, player)
-                    + 10000*cornerCapturedHeuristic.getScore(board, player);
+            return 500 * coinParity.getScore(board, player) +
+                    10000 * cornerCapturedHeuristic.getScore(board, player) +
+                    10000 * stabilityHeuristic.getScore(board , player);
 
         }
 
