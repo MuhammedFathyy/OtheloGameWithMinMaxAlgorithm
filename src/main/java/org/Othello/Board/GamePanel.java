@@ -32,8 +32,8 @@ public class GamePanel extends JPanel implements MouseListener {
     /**
      * The grid of positions controlling maintaining the game state of the board.
      */
-    private Grid gameGrid;
-    private  Moves moves;
+    private Grid gameGrid ;
+    private  Moves moves ;
     /**
      * The current game state.
      */
@@ -58,10 +58,9 @@ public class GamePanel extends JPanel implements MouseListener {
 
 
         gameGrid = new Grid(new Coordinates(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
-
+        moves  = new Moves(gameGrid);
         setGameState(GameState.BTurn);
         addMouseListener(this);
-        moves  =new Moves(gameGrid);
         chooseAIType(gameMode);
 
     }
@@ -92,16 +91,17 @@ public class GamePanel extends JPanel implements MouseListener {
      *
      * @param keyCode The key that was pressed.
      */
-//    public void handleInput(int keyCode) {
-//        if(keyCode == KeyEvent.VK_ESCAPE) {
-//            System.exit(0);
-//        } else if(keyCode == KeyEvent.VK_R) {
-//            restart();
-//            repaint();
+    public void handleInput(int keyCode) {
+        if(keyCode == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        } else if(keyCode == KeyEvent.VK_R) {
+            restart();
+            repaint();
 //        } else if(keyCode == KeyEvent.VK_A) {
 //            chooseAIType();
 //        }
-//    }
+    }
+    }
 
     /**
      * Checks the grid Coordinates is valid, and then plays the move of the current player.

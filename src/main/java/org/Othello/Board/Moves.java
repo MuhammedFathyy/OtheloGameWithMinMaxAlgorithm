@@ -3,18 +3,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Moves extends Rectangle {
-    Grid g;
+    Grid g ;
+    int mn;
 
-    public Moves(Grid gr){
-
-        this.g = gr;
+    @Override
+    public Coordinates getPosition() {
+        return position;
     }
 
+//    public void setPosition(Coordinates position) {
+//        this.position = position;
+//    }
 
-
+    private Coordinates position;
     static GridCell [][] grid;
-    int mn =g.getMoveNumber();
-    private static List<Coordinates> validMoves;
+    public Moves(Grid gr){
+        this.g = gr;
+        mn=g.getMoveNumber();
+        grid=gr.getGrid();
+
+    }
+
+    private static List<Coordinates> validMoves = new ArrayList<>();
     public static Board makeMove(Board board, Coordinates coordinates, int playerNumber) {
         int[][] currentBoard = board.getBoard();
         // coordinates next move

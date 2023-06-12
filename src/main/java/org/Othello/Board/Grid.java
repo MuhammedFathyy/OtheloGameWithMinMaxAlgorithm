@@ -6,6 +6,10 @@ import java.util.List;
 
 public class Grid extends Rectangle {
 
+    public GridCell[][] getGrid() {
+        return grid;
+    }
+
     private GridCell[][] grid;
 
     public int getMoveNumber() {
@@ -28,6 +32,7 @@ public class Grid extends Rectangle {
     private List<Coordinates> validMoves;
     public Grid(Coordinates position, int width, int height, int gridWidth, int gridHeight) {
         super(position, width, height);
+
         grid = new GridCell[gridWidth][gridHeight];
         int cellWidth = (width-position.getxCoordinates())/gridWidth;
         int cellHeight = (height-position.getyCoordinates())/gridHeight;
