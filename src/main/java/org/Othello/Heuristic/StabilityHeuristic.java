@@ -33,5 +33,5 @@ public class StabilityHeuristic
         }
 
         return heuristicScore;
-    }
+}
 }
