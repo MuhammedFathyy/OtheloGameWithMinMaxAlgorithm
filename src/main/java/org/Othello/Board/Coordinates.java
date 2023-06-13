@@ -3,7 +3,7 @@ package org.Othello.Board;
 import java.util.List;
 
 public class Coordinates {
-    
+
     /**
      * Down moving unit vector.
      */
@@ -58,9 +58,9 @@ public class Coordinates {
 //
 //        return null;
 //    }
-    
-    
-    
+
+
+
 
 
     public Coordinates(Coordinates CoordinatesToCopy) {
@@ -79,7 +79,7 @@ public class Coordinates {
         this.yCoordinates = yCoordinates;
     }
 
- 
+
     public void add(Coordinates otherCoordinates) {
         this.xCoordinates += otherCoordinates.xCoordinates;
         this.yCoordinates += otherCoordinates.yCoordinates;
@@ -104,17 +104,6 @@ public class Coordinates {
         this.xCoordinates -= otherCoordinates.xCoordinates;
         this.yCoordinates -= otherCoordinates.yCoordinates;
     }
-     /**
-     * Gets a string version of the Position.
-     *
-     * @return A string in the form (x, y)
-     */
-    @Override
-    public String toString(){
-    return "(" + xCoordinates + ", "+ yCoordinates + ") ";
-    }
-        
-
 
     /**
      * Compares the Position object against another object.
@@ -131,5 +120,13 @@ public class Coordinates {
         return xCoordinates == Coordinates.xCoordinates && yCoordinates == Coordinates.yCoordinates;
     }
 
-   
+    /**
+     * Gets a string version of the Position.
+     *
+     * @return A string in the form (x, y)
+     */
+    @Override
+    public String toString() {
+        return "(" + xCoordinates + ", " + yCoordinates+")";
+}
 }

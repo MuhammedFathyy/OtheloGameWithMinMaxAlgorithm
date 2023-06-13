@@ -1,4 +1,3 @@
-
 package org.Othello.Board;
 import java.awt.*;
 
@@ -8,14 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
- * Othello
- * Author: Peter Mitchell (2021)
- *
- * GamePanel class:
- * Controls the game state through clicks to iterate between
- * current turns and changing to a game over state once the game ends.
- */
+
 public class GamePanel extends JPanel implements MouseListener {
     /**
      * The states the game can be in.
@@ -39,7 +31,8 @@ public class GamePanel extends JPanel implements MouseListener {
     /**
      * The grid of positions controlling maintaining the game state of the board.
      */
-    private GameGrid gameGrid;
+    private Grid gameGrid ;
+    private  Moves moves ;
     /**
      * The current game state.
      */
@@ -58,14 +51,17 @@ public class GamePanel extends JPanel implements MouseListener {
      * Configures the game ready to be played including selection of playing against either
      * AI or another player.
      */
-    public GamePanel() {
+    public GamePanel(String gameMode,String difficulty) {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(Color.LIGHT_GRAY);
 
-        gameGrid = new GameGrid(new Position(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
+
+        gameGrid = new Grid(new Coordinates(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
+        moves  = new Moves(gameGrid);
         setGameState(GameState.BTurn);
-        chooseAIType();
         addMouseListener(this);
+        chooseAIType(gameMode);
+
     }
 
     /**
@@ -83,7 +79,7 @@ public class GamePanel extends JPanel implements MouseListener {
      * Resets the grid and returns the turn back to default.
      */
     public void restart() {
-        gameGrid.reset();
+        moves.reset();
         setGameState(GameState.BTurn);
     }
 
@@ -100,25 +96,26 @@ public class GamePanel extends JPanel implements MouseListener {
         } else if(keyCode == KeyEvent.VK_R) {
             restart();
             repaint();
-        } else if(keyCode == KeyEvent.VK_A) {
-            chooseAIType();
+//        } else if(keyCode == KeyEvent.VK_A) {
+//            chooseAIType();
+//        }
         }
     }
 
     /**
-     * Checks the grid position is valid, and then plays the move of the current player.
+     * Checks the grid Coordinates is valid, and then plays the move of the current player.
      * The game state is swapped upon a valid move being played.
      *
      * @param gridPosition Position to apply the move at.
      */
-    private void playTurn(Position gridPosition) {
-        if(!gameGrid.isValidMove(gridPosition)) {
+    private void playTurn(Coordinates gridPosition) {
+        if(!moves.isValidMove(gridPosition)) {
             return;
         } else if(gameState == GameState.BTurn) {
-            gameGrid.playMove(gridPosition, 1);
+            moves.playMove(gridPosition, 1);
             setGameState(GameState.WTurn);
         } else if(gameState == GameState.WTurn) {
-            gameGrid.playMove(gridPosition, 2);
+            moves.playMove(gridPosition, 2);
             setGameState(GameState.BTurn);
         }
     }
@@ -134,12 +131,12 @@ public class GamePanel extends JPanel implements MouseListener {
         switch (gameState) {
             case WTurn:
                 // If there are moves for the White player
-                if(gameGrid.getAllValidMoves().size() > 0) {
+                if(moves.getAllValidMoves().size() > 0) {
                     gameStateStr = "White Player Turn";
                 } else {
                     // No moves for the white player. Check the black player
-                    gameGrid.updateValidMoves(1);
-                    if(gameGrid.getAllValidMoves().size() > 0) {
+                    moves.updateValidMoves(1);
+                    if(moves.getAllValidMoves().size() > 0) {
                         // The black player has moves, swap back to them
                         setGameState(GameState.BTurn);
                     } else {
@@ -150,12 +147,12 @@ public class GamePanel extends JPanel implements MouseListener {
                 break;
             case BTurn:
                 // If there are moves for the Black player
-                if(gameGrid.getAllValidMoves().size() > 0) {
+                if(moves.getAllValidMoves().size() > 0) {
                     gameStateStr = "Black Player Turn";
                 } else {
                     // No moves for the black player. Check the white player
-                    gameGrid.updateValidMoves(2);
-                    if(gameGrid.getAllValidMoves().size() > 0) {
+                    moves.updateValidMoves(2);
+                    if(moves.getAllValidMoves().size() > 0) {
                         // The white player has moves, swap back to them
                         setGameState(GameState.WTurn);
                     } else {
@@ -163,7 +160,7 @@ public class GamePanel extends JPanel implements MouseListener {
                         testForEndGame(false);
                     }
                 }
-                 break;
+                break;
             case WWins: gameStateStr = "White Player Wins! Press R."; break;
             case BWins: gameStateStr = "Black Player Wins! Press R."; break;
             case Draw: gameStateStr = "Draw! Press R."; break;
@@ -175,7 +172,7 @@ public class GamePanel extends JPanel implements MouseListener {
      * the game state appropriately.
      */
     private void testForEndGame(boolean stillValidMoves) {
-        int gameResult = gameGrid.getWinner(stillValidMoves);
+        int gameResult = moves.getWinner(stillValidMoves);
         if(gameResult == 1) {
             setGameState(GameState.BWins);
         } else if(gameResult == 2) {
@@ -197,7 +194,7 @@ public class GamePanel extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if(gameState == GameState.WTurn || gameState == GameState.BTurn) {
-            Position gridPosition = gameGrid.convertMouseToGridPosition(new Position(e.getX(), e.getY()));
+            Coordinates gridPosition = moves.convertMouseToGridPosition(new Coordinates(e.getX(), e.getY()));
             playTurn(gridPosition);
             testForEndGame(true);
 
@@ -223,23 +220,16 @@ public class GamePanel extends JPanel implements MouseListener {
         g.drawString(gameStateStr, PANEL_WIDTH/2-strWidth/2, PANEL_HEIGHT-40);
     }
 
-    /**
-     * Shows a dialog box with options to select PvP or PvAI with Random.
-     * Choosing PvP leaves the AI behaviour unset, and otherwise creates
-     * an instance of the appropriate AI.
-     */
-    private void chooseAIType() {
-        String[] options = new String[] {"Player vs Player", "Player vs Random AI"};
-        String message = "Select the game mode you would like to use.";
-        int difficultyChoice = JOptionPane.showOptionDialog(null, message,
-                "Choose how to play.",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[0]);
-        switch(difficultyChoice) {
-            case 0: // Remove the AI so it becomes PvP
+
+    private void chooseAIType(String gameMode) {
+        switch(gameMode) {
+            case "Human vs Human": // Remove the AI so it becomes PvP
                 aiBehaviour = null;
                 break;
-            case 1:
+            case "Human vs Computer":
+                aiBehaviour = new SimpleAI(gameGrid);
+                break;
+            case "Computer vs Computer":
                 aiBehaviour = new SimpleAI(gameGrid);
                 break;
         }
@@ -272,5 +262,5 @@ public class GamePanel extends JPanel implements MouseListener {
      * @param e Not set.
      */
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e ){}
 }

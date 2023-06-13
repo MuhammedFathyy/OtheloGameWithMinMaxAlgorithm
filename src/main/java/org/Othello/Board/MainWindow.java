@@ -148,11 +148,17 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_modeComponentAdded
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-       OthelloGame newWindow = new OthelloGame();
-       newWindow.setVisible(true);
-       newWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_jButton1MouseClicked
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {
+//       OthelloGame newWindow = new OthelloGame();
+//       newWindow.setVisible(true);
+//       newWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        String gameMode = (String) mode.getSelectedItem();
+        String selectedDiff = (String)difficulty.getSelectedItem();
+        OthelloGame newWindow = new OthelloGame(gameMode,selectedDiff);
+        newWindow.setVisible(true);
+        newWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+}
 
     /**
      * @param args the command line arguments
